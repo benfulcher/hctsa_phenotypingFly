@@ -1,17 +1,73 @@
 %-------------------------------------------------------------------------------
+% Time series similarity matrix
+%-------------------------------------------------------------------------------
+TS_normalize('scaledRobustSigmoid',[0.5,1]);
+% Pairwise distances:
+Dij = TS_PairwiseDist('ts','norm','euclidean');
+
+% Order by individual:
+load('HCTSA_N.mat','TimeSeries');
+[expID,recordingSegment] = getExperimentID(TimeSeries);
+[expID,ix] = sort(expID);
+recordingSegment = recordingSegment(ix);
+
+% Resort by recording segment:
+uExpID = unique(expID);
+ix2 = 1:length(TimeSeries);
+for i = 1:length(uExpID)
+    tmp = ix2(expID==i);
+    [~,ix_tmp] = sort(recordingSegment(expID==i));
+    ix2(expID==i) = tmp(ix_tmp);
+end
+ixTot = ix(ix2);
+
+Dij = squareform(Dij);
+Dij_sorted = Dij(ixTot,ixTot);
+
+unitRescale = @(x) (x-min(x))/(max(x)-min(x));
+
+BF_PlotCorrMat([repmat(unitRescale(expID),1,100)*max(Dij(:)),Dij],'auto',1);
+
+%-------------------------------------------------------------------------------
+% Region classification (individuals?)
+%-------------------------------------------------------------------------------
+TS_LabelGroups({'reg2','reg4','reg6','reg8','reg10','reg11','reg13','reg15','reg17','reg19'},'raw');
+normHow = 'zscore'; % 'none', 'scaledRobustSigmoid', 'zscore'
+TS_normalize(normHow,[0.5,1],[],1);
+TS_classify('norm')
+TS_plot_pca
+TS_normalize('none',[0.5,1],[],1);
+TS_TopFeatures('norm','fast_linear',doNull,'numHistogramFeatures',40)
+
+%-------------------------------------------------------------------------------
 % Day/night analysis:
 %-------------------------------------------------------------------------------
-TS_LabelGroups({'day','night'},'raw')
-TS_normalize('scaledRobustSigmoid',[0.5,1])
-TS_classify
+TS_LabelGroups({'day','night'},'raw');
+normHow = 'zscore'; % 'none', 'scaledRobustSigmoid', 'zscore'
+TS_normalize(normHow,[0.5,1],[],1);
+TS_classify('norm')
 TS_plot_pca
-TS_TopFeatures
+TS_normalize('none',[0.5,1],[],1);
+TS_TopFeatures('norm','fast_linear',doNull,'numHistogramFeatures',40)
 
 %-------------------------------------------------------------------------------
 % Male/Female analysis:
 %-------------------------------------------------------------------------------
 TS_LabelGroups({'F','M'},'raw');
-TS_normalize('scaledRobustSigmoid',[0.5,1])
+TS_normalize('scaledRobustSigmoid',[0.5,1]);
+TS_classify
+annotateParams = struct('n',12,'textAnnotation','none','userInput',0,'maxL',600);
+TS_plot_pca(normalizedFileName,1,'',annotateParams)
+TS_normalize('none',[0.5,1],[],1);
+TS_TopFeatures('norm','fast_linear',doNull,'numHistogramFeatures',40)
+featID = 4292;
+TS_SingleFeature('norm',featID);
+
+%-------------------------------------------------------------------------------
+% Day/night effect?
+%-------------------------------------------------------------------------------
+TS_LabelGroups({'day1','day2','day3','day4','day5'},'raw');
+TS_normalize('scaledRobustSigmoid',[0.5,1]);
 TS_classify
 TS_plot_pca
 TS_TopFeatures
@@ -34,24 +90,10 @@ groupLabels{3} = find(sexGroups==2 & dayGroups==1);
 groupLabels{4} = find(sexGroups==2 & dayGroups==2);
 
 % Make a cell version of group indices (to use cell2struct)
-theGroupsCell = cell(length(TimeSeries),1);
+theGroupsCell = cell(1,length(TimeSeries));
 for i = 1:length(theGroupsCell)
     theGroupsCell{i} = find(cellfun(@(x)ismember(i,x),groupLabels));
 end
 
-% First remove Group field if it exists
-if isfield(TimeSeries,'Group')
-    TimeSeries = rmfield(TimeSeries,'Group');
-end
-
-% Add new field to the TimeSeries structure array
-newFieldNames = fieldnames(TimeSeries);
-newFieldNames{length(newFieldNames)+1} = 'Group';
-
-% Then append the new group information:
-% (some weird bug -- squeeze is sometimes needed here...:)
-TimeSeries = cell2struct([squeeze(struct2cell(TimeSeries));theGroupsCell'],newFieldNames);
-
-% Save everything back to file:
-save(theFile,'TimeSeries','groupNames','-append')
-fprintf(1,' Saved.\n');
+LabelBy(theGroupsCell,groupNames,TimeSeries,theFile);
+TS_normalize('scaledRobustSigmoid',[0.5,1]);
