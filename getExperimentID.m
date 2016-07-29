@@ -10,8 +10,6 @@ splitDot = regexp(fileNames,'\.','split');
 splitDot_ID = cellfun(@(x)x{1},splitDot,'UniformOutput',0);
 [uniqueIDs,~,expID] = unique(splitDot_ID);
 
-keyboard
-
 % Then we want to split on underscore:
 splitUnderscore = regexp(fileNames,'_','split');
 
