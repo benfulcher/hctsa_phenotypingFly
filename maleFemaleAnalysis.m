@@ -10,7 +10,7 @@ TS_normalize('scaledRobustSigmoid',[0.5,1]);
 
 %-------------------------------------------------------------------------------
 % Reorder features to sit close:
-TS_cluster('none',[],'corr','average',[1,1]);
+TS_cluster('none',[],'corr','average');
 
 %-------------------------------------------------------------------------------
 % Reorder to ensure male/female sit together:
