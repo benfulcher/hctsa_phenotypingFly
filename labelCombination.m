@@ -1,11 +1,15 @@
-function labelCombination()
-% Labels the combination M/F day/night
+function labelCombination(theData)
+% Labels the combination M-day/M-night/F-day/F-night
 %-------------------------------------------------------------------------------
 
-theFile = 'HCTSA.mat';
-[~,TimeSeries,~,theFile] = TS_LoadData(theFile);
-sexGroups = TS_LabelGroups({'M','F'},theFile,0); % Male (1), Female (2)
-dayGroups = TS_LabelGroups({'day','night'},theFile,0); % day (1), night(2)
+if nargin < 1
+    theData = 'HCTSA.mat';
+end
+
+%-------------------------------------------------------------------------------
+[~,TimeSeries,~,theData] = TS_LoadData(theData);
+sexGroups = TS_LabelGroups({'M','F'},theData,0); % Male (1), Female (2)
+dayGroups = TS_LabelGroups({'day','night'},theData,0); % day (1), night(2)
 
 % First append/overwrite group names
 groupNames = {'MaleDay','MaleNight','FemaleDay','FemaleNight'}';
@@ -22,6 +26,6 @@ for i = 1:length(theGroupsCell)
     theGroupsCell{i} = find(cellfun(@(x)ismember(i,x),groupLabels));
 end
 
-LabelBy(theGroupsCell,groupNames,TimeSeries,theFile);
+LabelBy(theGroupsCell,groupNames,TimeSeries,theData);
 
 end

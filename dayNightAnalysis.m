@@ -14,7 +14,6 @@ TS_classify('norm')
 TS_plot_pca
 TS_normalize('none',[0.5,1],[],1);
 
-
 %-------------------------------------------------------------------------------
 % Look at some single features:
 TS_TopFeatures(data,'fast_linear',0,'numHistogramFeatures',40)

@@ -31,8 +31,8 @@ save('HCTSA_N.mat','ts_clust','-append')
 TS_plot_DataMatrix('cl','colorGroups',1,'addTimeSeries',0)
 
 %-------------------------------------------------------------------------------
-% Get overall classification rates:
-TS_classify
+% Get overall classification rate:
+TS_classify('norm',whatClassifier,computePCs);
 
 %-------------------------------------------------------------------------------
 % Male/female PCA plot:
