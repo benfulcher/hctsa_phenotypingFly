@@ -5,7 +5,7 @@
 %-------------------------------------------------------------------------------
 % Label groups, normalize data:
 TS_LabelGroups({'F','M'},'raw');
-data = load('HCTSA.mat');
+dataLoad = load('HCTSA.mat');
 TS_normalize('scaledRobustSigmoid',[0.5,1]);
 
 %-------------------------------------------------------------------------------
@@ -25,24 +25,27 @@ is2 = ix([TimeSeries(ix).Group]==2);
 ix([TimeSeries(ix).Group]==2) = is2(ordering_2);
 ts_clust.ord = ix;
 save('HCTSA_N.mat','ts_clust','-append')
+dataLoadNorm = load('HCTSA_N.mat');
 
 %-------------------------------------------------------------------------------
-% Plot the data matrix
+% Plot the clustered data matrix:
 TS_plot_DataMatrix('cl','colorGroups',1,'addTimeSeries',0)
 
 %-------------------------------------------------------------------------------
 % Get overall classification rate:
-TS_classify('norm',whatClassifier,computePCs);
+whatClassifier = 'svm_linear';
+computePCs = 0;
+TS_classify(dataLoadNorm,whatClassifier,computePCs);
 
 %-------------------------------------------------------------------------------
 % Male/female PCA plot:
 annotateParams = struct('n',12,'textAnnotation','none','userInput',0,'maxL',600);
-TS_plot_pca(normalizedFileName,1,'',annotateParams)
+TS_plot_pca(dataLoadNorm,1,'',annotateParams)
 
 %-------------------------------------------------------------------------------
 % Feature learning:
 doNull = 0;
-TS_TopFeatures(data,'fast_linear',doNull,'numHistogramFeatures',40)
+TS_TopFeatures(dataLoad,'fast_linear',doNull,'numHistogramFeatures',40)
 
 %-------------------------------------------------------------------------------
 % Plot some of the top features:
@@ -57,8 +60,7 @@ featIDs = [4522,... % SP_Summaries_fft_logdev_q25
             3444,... % EX_MovingThreshold_1_01_meankickf
             4602,... % SP_Summaries_fft_logdev_area_4_2
             1720,... % DN_RemovePoints_absfar_08_median
-            4310,... % SP_Summaries_pgram_hamm_sfm (spectral flatness measure)
-            ];
+            4310]; % SP_Summaries_pgram_hamm_sfm (spectral flatness measure)
 
 f = figure('color','w');
 for i = 1:length(featIDs)
@@ -66,7 +68,8 @@ for i = 1:length(featIDs)
     TS_SingleFeature(data,featIDs(i),1,0);
 end
 
-% The distributional measure:
+%-------------------------------------------------------------------------------
+% Check out he distributional measure:t
 annotateParams.maxL = 4320;
 TS_FeatureSummary(1720, data, 1, annotateParams); % remove points -- distribution
 TS_FeatureSummary(4310, data, 1, annotateParams); % spectral flatness measure

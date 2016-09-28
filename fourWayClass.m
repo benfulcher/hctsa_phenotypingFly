@@ -48,5 +48,5 @@ end
 TS_SingleFeature(dataLoad,744,1,1);
 
 % Inspect in a bit more detail:
-annotateParams = struct('n',0,'textAnnotation','none','userInput',0,'maxL',4320);
+annotateParams = struct('n',15,'textAnnotation','none','userInput',0,'maxL',4320);
 TS_FeatureSummary(744,dataLoad,1,annotateParams);

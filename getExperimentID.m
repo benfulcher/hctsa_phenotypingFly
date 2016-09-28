@@ -1,6 +1,7 @@
 function [expID,recordingSegment] = getExperimentID(TimeSeries)
 % Returns a set of experiment IDs from a set of time series
 % Also the recordingSegment (the 12 hour block taken from that experiment)
+%-------------------------------------------------------------------------------
 
 % First we want the names:
 fileNames = {TimeSeries.Name};

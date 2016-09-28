@@ -1,6 +1,6 @@
 function LabelBy(theGroupsCell,groupNames,TimeSeries,theFile)
 
-if size(theGroupsCell,1)>size(theGroupsCell,2)
+if size(theGroupsCell,1) > size(theGroupsCell,2)
    theGroupsCell = theGroupsCell';
 end
 
