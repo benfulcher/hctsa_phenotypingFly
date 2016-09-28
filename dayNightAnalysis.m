@@ -32,9 +32,12 @@ TS_plot_pca(dataLoadNorm,1,'',annotateParams)
 TS_TopFeatures(dataLoad,'fast_linear',0,'numHistogramFeatures',40)
 
 %-------------------------------------------------------------------------------
-% Investigate particular individual features
-TS_SingleFeature(dataLoad,1039,1,1);
+% Investigate particular individual features:
+featureID = 1039;
+TS_SingleFeature(dataLoad,featureID,1,1);
 set(gcf,'Position',[1000,910,269,167]);
 annotateParams.maxL = 4320;
-TS_FeatureSummary(6015, dataLoad, 1, annotateParams)
-TS_FeatureSummary(45, dataLoad, 1, annotateParams)
+featureID = 6015;
+TS_FeatureSummary(featureID,dataLoad,1,annotateParams)
+featureID = 45;
+TS_FeatureSummary(featureID,dataLoad,1,annotateParams)
