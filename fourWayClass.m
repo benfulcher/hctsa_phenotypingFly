@@ -27,16 +27,21 @@ set(gcf,'Position',[491,500,417,384])
 %-------------------------------------------------------------------------------
 % Get some top features:
 doNull = 0;
-TS_TopFeatures(dataLoad,'fast_linear',doNull,'numHistogramFeatures',40)
+if doNull
+    numNulls = 50;
+else
+    numNulls = 0;
+end
+TS_TopFeatures(dataLoad,'fast_linear','numHistogramFeatures',40,'numNulls',numNulls)
 
 %-------------------------------------------------------------------------------
 % Investigate some top features of interest specifically:
 
-featuresLook = [7080,... % MF_CompareTestSets_y_ar_4_rand_25_01_1_stdrats_median
-                3533,... % SB_MotifTwo_mean_duu
-                4605,... % SP_Summaries_fft_logdev_logarea_4_3
-                485,... % glscf_1_1_2
-                1294]; % noise titration
+featuresLook = [7051,... % MF_CompareTestSets_y_ar_4_rand_25_01_1_stdrats_median
+                3540,... % SB_MotifTwo_mean_duu
+                4610,... % SP_Summaries_fft_logdev_area_4_3
+                492,... % glscf_1_1_2
+                1156]; % noise titration
 
 for i = 1:length(featuresLook)
     TS_SingleFeature(dataLoad,featuresLook(i),1,1);
@@ -45,7 +50,7 @@ end
 %-------------------------------------------------------------------------------
 % Focus in on SY_StdNthDer_1:
 % ******FIGURE IN PAPER******
-TS_SingleFeature(dataLoad,744,1,1);
+TS_SingleFeature(dataLoad,751,1,1);
 
 % Inspect in a bit more detail:
 annotateParams = struct('n',15,'textAnnotation','none','userInput',0,'maxL',4320);

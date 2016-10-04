@@ -12,3 +12,4 @@ Also requires the data file, `HCTSA.mat`, containing the results of *hctsa* feat
 * `maleFemaleAnalysis` contains the main steps for distinguishing male from female movement
 * `fourWayClass` contains the main steps for four-class classification across: (1) male-day, (2) male-night, (3) female-day, (4) female-night
 * `flyClassificationResults` contains the steps for reproducing the classification accuracies of the different classification tasks.
+* `reproduceFigures` reproduces the results in the figure of the implementation paper.
