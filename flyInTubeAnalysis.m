@@ -49,7 +49,7 @@ LabelBy(theGroupsCell,groupNames,TimeSeries,'HCTSA.mat');
 TS_normalize('scaledRobustSigmoid',[0.5,1]);
 
 %-------------------------------------------------------------------------------
-% Region classification (individuals?)
+% Classification of region (tube ID) -- shouldn't be much of a signal
 %-------------------------------------------------------------------------------
 TS_LabelGroups({'reg2','reg4','reg6','reg8','reg10','reg11','reg13','reg15','reg17','reg19'},'raw');
 normHow = 'zscore'; % 'none', 'scaledRobustSigmoid', 'zscore'
