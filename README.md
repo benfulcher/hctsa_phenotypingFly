@@ -8,7 +8,8 @@ A summary of key analysis results are [on bioRxiv](http://biorxiv.org/content/ea
 Data are labeled with keywords `M` (male), `F` (female), `day`, and `night`, as well as region numbers, and day numbers (for multi-day experiments).
 
 This repository requires [hctsa](github.com/benfulcher/hctsa) to be installed and paths to this package added (through the `startup.m` script in *hctsa*).
-Also requires the data file, `HCTSA.mat`, containing the time-series data and the results of *hctsa* feature extraction (available [on figshare](https://dx.doi.org/10.4225/03/5804798d2a2ec))
+Also requires the data file, `HCTSA.mat`, containing the time-series data and the results of *hctsa* feature extraction.
+This file can be downloaded by running `downloadComputedData` (can also be found [on figshare](https://dx.doi.org/10.4225/03/5804798d2a2ec))
 
 A summary of the functions included are below:
 

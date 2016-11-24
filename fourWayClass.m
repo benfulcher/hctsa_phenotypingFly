@@ -3,7 +3,7 @@
 %-------------------------------------------------------------------------------
 
 %-------------------------------------------------------------------------------
-%% Label the combination with group labels and load in data:
+%% Label the combination with group labels, normalize, and load in data:
 labelCombination();
 whatNormalization = 'zscore';
 TS_normalize('zscore',[0.5,1]);
@@ -11,33 +11,38 @@ unnormalizedData = load('HCTSA.mat');
 normalizedData = load('HCTSA_N.mat');
 
 %-------------------------------------------------------------------------------
-% Plot time series from each class:
-TS_plot_timeseries(unnormalizedData,5,[],[])
+%% Plot time series from each class:
+numTimeSeriesPerClass = 5;
+TS_plot_timeseries(unnormalizedData,numTimeSeriesPerClass)
 
 %-------------------------------------------------------------------------------
-% Classify labels using all features:
-TS_classify(normalizedData,'svm_linear',0);
+%% Classify labels using all features:
+theClassifier = 'svm_linear'; % the classifier to use
+comparePCs = false; % whether to compare the classification performance of reduced PCs
+TS_classify(normalizedData,theClassifier,comparePCs);
 
 %-------------------------------------------------------------------------------
-% PCA with annotations:
+%% PCA with annotations:
 % *****FIGURE IN PAPER*****
 annotateParams = struct('n',0,'textAnnotation','none','userInput',0,'maxL',600);
 TS_plot_pca(normalizedData,0,'svm_linear',annotateParams)
-set(gcf,'Position',[491,500,417,384])
+f = gcf; f.Position = [491,500,417,384];
 
 %-------------------------------------------------------------------------------
-% Get some top features:
-doNull = 0;
+%% Get some top features:
+numFeaturesDistr = 40; % plot class distributions for this many features
+doNull = false; % whether to run nulls (slow) to compute statistical significance of individual features
 if doNull
     numNulls = 50;
 else
     numNulls = 0;
 end
-TS_TopFeatures(unnormalizedData,'fast_linear','numFeaturesDistr',40,'numNulls',numNulls)
+TS_TopFeatures(unnormalizedData,'fast_linear','numFeaturesDistr',numFeaturesDistr,...
+                    'numNulls',numNulls)
 
 %-------------------------------------------------------------------------------
-% Investigate some top features of interest specifically:
-
+%% Investigate some top features of interest specifically:
+% (features from TS_TopFeatures)
 featuresLook = [7051,... % MF_CompareTestSets_y_ar_4_rand_25_01_1_stdrats_median
                 3540,... % SB_MotifTwo_mean_duu
                 4610,... % SP_Summaries_fft_logdev_area_4_3
@@ -49,10 +54,7 @@ for i = 1:length(featuresLook)
 end
 
 %-------------------------------------------------------------------------------
-% Focus in on SY_StdNthDer_1:
-% ******FIGURE IN PAPER******
-TS_SingleFeature(unnormalizedData,751,1,1);
-
-% Inspect in a bit more detail:
+%% Focus in on SY_StdNthDer_1:
+featureID = 751;
 annotateParams = struct('n',15,'textAnnotation','none','userInput',0,'maxL',4320);
-TS_FeatureSummary(744,unnormalizedData,1,annotateParams);
+TS_FeatureSummary(featureID,unnormalizedData,1,annotateParams);
