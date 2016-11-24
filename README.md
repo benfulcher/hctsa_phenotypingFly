@@ -6,7 +6,7 @@ Movement speed was estimated as the maximum speed in each non-overlapping 10 s t
 Data are labeled with keywords `M` (male), `F` (female), `day`, and `night`, as well as region numbers, and day numbers (for multi-day experiments).
 
 Requires [hctsa](github.com/benfulcher/hctsa) to be installed and paths to this package added (through the `startup.m` script in hctsa).
-Also requires the data file, `HCTSA.mat`, containing the results of *hctsa* feature extraction (available on figshare).
+Also requires the data file, `HCTSA.mat`, containing the results of *hctsa* feature extraction (available [on figshare](https://figshare.com/articles/Highly_comparative_time-series_analysis_of_Drosophila_melanogaster_movement_speed/3863553)).
 
 * `dayNightAnalysis` contains the main steps for determining movement differences between day and night
 * `maleFemaleAnalysis` contains the main steps for distinguishing male from female movement

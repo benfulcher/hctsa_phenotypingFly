@@ -32,7 +32,7 @@ if doNull
 else
     numNulls = 0;
 end
-TS_TopFeatures(dataLoad,'fast_linear','numHistogramFeatures',40,'numNulls',numNulls)
+TS_TopFeatures(dataLoad,'fast_linear','numFeaturesDistr',40,'numNulls',numNulls)
 
 %-------------------------------------------------------------------------------
 % Investigate some top features of interest specifically:

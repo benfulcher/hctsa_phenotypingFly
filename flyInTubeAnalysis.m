@@ -57,7 +57,7 @@ TS_normalize(normHow,[0.5,1],[],1);
 TS_classify('norm')
 TS_plot_pca
 TS_normalize('none',[0.5,1],[],1);
-TS_TopFeatures('norm','fast_linear',doNull,'numHistogramFeatures',40)
+TS_TopFeatures('norm','fast_linear',doNull,'numFeaturesDistr',40)
 
 %-------------------------------------------------------------------------------
 % Effect of day number?

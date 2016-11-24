@@ -1,43 +1,55 @@
 %-------------------------------------------------------------------------------
-% Day/night analysis:
+% ---Day/night analysis
+% Runs hctsa to understand differences in fly movement between
+% day and night.
 %-------------------------------------------------------------------------------
-
-% How to normalize the data:
-normHow = 'zscore'; % 'none', 'scaledRobustSigmoid', 'zscore'
-
-%-------------------------------------------------------------------------------
-% Label and load data:
+%% Label, normalize, and load data:
+% Set how to normalize the data:
+normHow = 'zscore'; % 'zscore', 'scaledRobustSigmoid'
 % Label all time series by either 'day' or 'night':
 TS_LabelGroups({'day','night'},'raw');
 % Normalize the data, filtering out features with any special values:
 TS_normalize(normHow,[0.5,1],[],1);
 % Load data in as a structure:
-dataLoad = load('HCTSA.mat');
+unnormalizedData = load('HCTSA.mat');
 % Load normalized data in a structure:
-dataLoadNorm = load('HCTSA_N.mat');
+normalizedData = load('HCTSA_N.mat');
 
 %-------------------------------------------------------------------------------
-% How accurately can day versus night be classified:
+%% How accurately can day versus night be classified using all features:
 whatClassifier = 'svm_linear';
 computePCs = 0;
-TS_classify(dataLoadNorm,whatClassifier,computePCs);
+TS_classify(normalizedData,whatClassifier,computePCs);
 
 %-------------------------------------------------------------------------------
-% Check out a low-dimensional principal components representation of the dataset:
-annotateParams = struct('n',6,'textAnnotation','none','userInput',0,'maxL',600);
-TS_plot_pca(dataLoadNorm,1,'',annotateParams)
+%% Generate a low-dimensional principal components representation of the dataset:
+numAnnotate = 6; % number of time series to annotate to the plot
+userSelects = false; % whether the user can click on time series to manually annotate
+timeSeriesLength = 600; % length of time-series segments to annotate
+annotateParams = struct('n',numAnnotate,'textAnnotation','none',...
+                        'userInput',userSelects,'maxL',timeSeriesLength);
+TS_plot_pca(normalizedData,true,'',annotateParams)
 
 %-------------------------------------------------------------------------------
-% Look at some single features:
-TS_TopFeatures(dataLoad,'fast_linear',0,'numHistogramFeatures',40)
+%% What individual features best discriminate day from night
+% Uses a linear classication accuracy between day/night as a statistic to
+% score individual features
+% Produces 1) a pairwise correlation plot between the top features
+%          2) class distributions of the top features, with their stats
+%          3) a histogram of the accuracy of all features
+
+numFeatures = 40; % number of features to include in the pairwise correlation plot
+numFeaturesDistr = 32; % number of features to show class distributions for
+whatStatistic = 'fast_linear'; % fast linear classification rate statistic
+
+TS_TopFeatures(unnormalizedData,'fast_linear','numFeatures',numFeatures,...
+            'numFeaturesDistr',numFeaturesDistr,...
+            'whatPlots',{'histogram','distributions','cluster'});
 
 %-------------------------------------------------------------------------------
-% Investigate particular individual features:
-featureID = 1039;
-TS_SingleFeature(dataLoad,featureID,1,1);
-set(gcf,'Position',[1000,910,269,167]);
-annotateParams.maxL = 4320;
-featureID = 6015;
-TS_FeatureSummary(featureID,dataLoad,1,annotateParams)
-featureID = 45;
-TS_FeatureSummary(featureID,dataLoad,1,annotateParams)
+%% Investigate particular individual features in some more detail
+annotateParams = struct('maxL',4320);
+featureID = 1752;
+TS_FeatureSummary(featureID,unnormalizedData,1,annotateParams)
+featureID = 1099;
+TS_FeatureSummary(featureID,unnormalizedData,1,annotateParams)

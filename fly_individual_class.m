@@ -15,7 +15,7 @@ normalizedFileName = TS_normalize('scaledRobustSigmoid',[0.5,1]);
 TS_classify(normalizedFileName)
 TS_normalize('none',[0.5,1],[],1);
 doNull = 0;
-TS_TopFeatures('norm','fast_linear',doNull,'numHistogramFeatures',40)
+TS_TopFeatures('norm','fast_linear',doNull,'numFeaturesDistr',40)
 
 featID = 3789;
 TS_SingleFeature('norm',featID);

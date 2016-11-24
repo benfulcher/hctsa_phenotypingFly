@@ -45,7 +45,7 @@ TS_plot_pca(dataLoadNorm,1,'',annotateParams)
 %-------------------------------------------------------------------------------
 % Feature learning:
 doNull = 0;
-TS_TopFeatures(dataLoad,'fast_linear',doNull,'numHistogramFeatures',40)
+TS_TopFeatures(dataLoad,'fast_linear',doNull,'numFeaturesDistr',40)
 
 %-------------------------------------------------------------------------------
 % Plot some of the top features:
