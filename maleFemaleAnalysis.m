@@ -1,12 +1,18 @@
 %-------------------------------------------------------------------------------
-% Male/Female analysis:
+% ---Male/female analysis:
+% Runs hctsa functions to understand differences in fly movement between
+% males and females
 %-------------------------------------------------------------------------------
 
 %-------------------------------------------------------------------------------
-% Label groups, normalize data:
+%% Label groups, normalize, and load data:
+% Set how to normalize the data:
+normHow = 'scaledRobustSigmoid'; % 'zscore', 'scaledRobustSigmoid'
 TS_LabelGroups({'F','M'},'raw');
 dataLoad = load('HCTSA.mat');
-TS_normalize('scaledRobustSigmoid',[0.5,1]);
+TS_normalize(normHow,[0.5,1]);
+% Load normalized data in a structure:
+normalizedData = load('HCTSA_N.mat');
 
 %-------------------------------------------------------------------------------
 % Reorder features to sit close:

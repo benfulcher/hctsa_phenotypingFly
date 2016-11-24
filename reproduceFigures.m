@@ -1,27 +1,35 @@
 % Reproduce figures in the paper:
-% (cf. fourWayClass for related analyses)
 
 %-------------------------------------------------------------------------------
-% Label and normalize data
+%% Label and normalize data
+% (labeling by the combination of: (1) male-day, (2) male-night,
+%                                  (3) female-day, (4) female-night)
 %-------------------------------------------------------------------------------
 labelCombination('raw');
-TS_normalize('scaledRobustSigmoid',[0.5,1]);
+whatNormalization = 'scaledRobustSigmoid'; % use a sigmoid normalization for features
+filterParams = [0.5,1]; % filter out time series < 50% good values; features with < 100% good values
+TS_normalize(whatNormalization,[0.5,1]);
 
 %-------------------------------------------------------------------------------
-% Plot 3 time series from each class (for combinations of male/female; day/night)
+%% Plot 3 time series from each of the four classes
 %-------------------------------------------------------------------------------
 plotOptions = struct();
 plotOptions.howToFilter = 'rand';
 TS_plot_timeseries('norm',3,[],[],plotOptions)
 
 %-------------------------------------------------------------------------------
-% Zoom in on a feature of interest (identified using TS_TopFeatures):
+%% Zoom in on a feature of interest (identified using TS_TopFeatures):
 %-------------------------------------------------------------------------------
-TS_SingleFeature('raw',751,1,1); % SY_StdNthDer_1
+featureID = 751; % The feature: SY_StdNthDer_1
+TS_SingleFeature('raw',featureID,1,1);
 
 %-------------------------------------------------------------------------------
-% The PC plot
+%% Plot a principal components projection of the dataset
 %-------------------------------------------------------------------------------
-annotateParams = struct('n',0,'textAnnotation','none','userInput',0,'maxL',600);
-TS_plot_pca('norm',0,'svm_linear',annotateParams)
-set(gcf,'Position',[491,500,417,384])
+numberToAnnotate = 0; % don't annotate any time series to the plot
+whatClassifier = 'svm_linear'; % plot classification boundaries in the 2D space
+annotateParams = struct('n',numberToAnnotate,'textAnnotation','none',...
+                        'userInput',0,'maxL',600);
+TS_plot_pca('norm',0,whatClassifier,annotateParams)
+f = gcf;
+f.Position = [491,500,417,384];
