@@ -5,11 +5,11 @@
 %-------------------------------------------------------------------------------
 %% Label, normalize, and load data:
 % Set how to normalize the data:
-normHow = 'zscore'; % 'zscore', 'scaledRobustSigmoid'
+whatNormalization = 'zscore'; % 'zscore', 'scaledRobustSigmoid'
 % Label all time series by either 'day' or 'night':
 TS_LabelGroups({'day','night'},'raw');
 % Normalize the data, filtering out features with any special values:
-TS_normalize(normHow,[0.5,1],[],1);
+TS_normalize(whatNormalization,[0.5,1],[],1);
 % Load data in as a structure:
 unnormalizedData = load('HCTSA.mat');
 % Load normalized data in a structure:

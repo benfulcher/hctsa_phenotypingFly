@@ -7,10 +7,10 @@
 %-------------------------------------------------------------------------------
 %% Label groups, normalize, and load data:
 % Set how to normalize the data:
-normHow = 'scaledRobustSigmoid'; % 'zscore', 'scaledRobustSigmoid'
+whatNormalization = 'scaledRobustSigmoid'; % 'zscore', 'scaledRobustSigmoid'
 TS_LabelGroups({'F','M'},'raw');
 dataLoad = load('HCTSA.mat');
-TS_normalize(normHow,[0.5,1]);
+TS_normalize(whatNormalization,[0.5,1]);
 % Load normalized data in a structure:
 normalizedData = load('HCTSA_N.mat');
 

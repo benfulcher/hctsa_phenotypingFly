@@ -13,9 +13,9 @@ TS_normalize(whatNormalization,[0.5,1]);
 %-------------------------------------------------------------------------------
 %% Plot 3 time series from each of the four classes
 %-------------------------------------------------------------------------------
-plotOptions = struct();
-plotOptions.howToFilter = 'rand';
-TS_plot_timeseries('norm',3,[],[],plotOptions)
+numPerClass = 3;
+plotOptions = struct('howToFilter','rand'); % select time series to plot from each class at random
+TS_plot_timeseries('raw',numPerClass,[],[],plotOptions)
 
 %-------------------------------------------------------------------------------
 %% Zoom in on a feature of interest (identified using TS_TopFeatures):
