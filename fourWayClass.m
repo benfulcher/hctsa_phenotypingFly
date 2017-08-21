@@ -24,8 +24,8 @@ TS_classify(normalizedData,theClassifier,comparePCs);
 %-------------------------------------------------------------------------------
 %% PCA with annotations:
 % *****FIGURE IN PAPER*****
-annotateParams = struct('n',0,'textAnnotation','none','userInput',0,'maxL',600);
-TS_plot_pca(normalizedData,0,'svm_linear',annotateParams)
+annotateParams = struct('n',0,'textAnnotation','none','userInput',false,'maxL',600);
+TS_plot_pca(normalizedData,false,'svm_linear',annotateParams)
 f = gcf; f.Position = [491,500,417,384];
 
 %-------------------------------------------------------------------------------

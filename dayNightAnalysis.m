@@ -18,7 +18,7 @@ normalizedData = load('HCTSA_N.mat');
 %-------------------------------------------------------------------------------
 %% How accurately can day versus night be classified using all features:
 whatClassifier = 'svm_linear';
-computePCs = 0;
+computePCs = false;
 TS_classify(normalizedData,whatClassifier,computePCs);
 
 %-------------------------------------------------------------------------------
