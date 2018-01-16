@@ -35,28 +35,28 @@ dataLoadNorm = load('HCTSA_N.mat');
 
 %-------------------------------------------------------------------------------
 % Plot the clustered data matrix:
-TS_plot_DataMatrix('cl','colorGroups',1,'addTimeSeries',0)
+TS_plot_DataMatrix('cl','colorGroups',true,'addTimeSeries',false)
 
 %-------------------------------------------------------------------------------
 % Get overall classification rate:
 whatClassifier = 'svm_linear';
-computePCs = 0;
+computePCs = false;
 TS_classify(dataLoadNorm,whatClassifier,computePCs);
 
 %-------------------------------------------------------------------------------
 % Male/female PCA plot:
-annotateParams = struct('n',12,'textAnnotation','none','userInput',0,'maxL',600);
-TS_plot_pca(dataLoadNorm,1,'',annotateParams)
+annotateParams = struct('n',12,'textAnnotation','none','userInput',false,'maxL',600);
+TS_plot_pca(dataLoadNorm,true,'',annotateParams)
 
 %-------------------------------------------------------------------------------
 % Feature learning:
-doNull = 0;
+doNull = false;
 TS_TopFeatures(dataLoad,'fast_linear',doNull,'numFeaturesDistr',40)
 
 %-------------------------------------------------------------------------------
 % Plot some of the top features:
 annotateParams = struct();
-annotateParams.userInput = 0;
+annotateParams.userInput = false;
 annotateParams.n = 11;
 annotateParams.maxL = 500;
 featIDs = [4522,... % SP_Summaries_fft_logdev_q25
@@ -71,14 +71,14 @@ featIDs = [4522,... % SP_Summaries_fft_logdev_q25
 f = figure('color','w');
 for i = 1:length(featIDs)
     subplot(ceil(length(featIDs)/3),3,i);
-    TS_SingleFeature(data,featIDs(i),1,0);
+    TS_SingleFeature(dataLoad,featIDs(i),true,false);
 end
 
 %-------------------------------------------------------------------------------
 % Check out he distributional measure:t
 annotateParams.maxL = 4320;
-TS_FeatureSummary(1720, data, 1, annotateParams); % remove points -- distribution
-TS_FeatureSummary(4310, data, 1, annotateParams); % spectral flatness measure
+TS_FeatureSummary(1720,dataLoad,true,annotateParams); % remove points -- distribution
+TS_FeatureSummary(4310,dataLoad,true,annotateParams); % spectral flatness measure
 
 %-------------------------------------------------------------------------------
 % Investigate spectral properties further:
