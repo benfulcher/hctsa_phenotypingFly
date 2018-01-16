@@ -49,9 +49,8 @@ annotateParams = struct('n',12,'textAnnotation','none','userInput',false,'maxL',
 TS_plot_pca(dataLoadNorm,true,'',annotateParams)
 
 %-------------------------------------------------------------------------------
-% Feature learning:
-doNull = false;
-TS_TopFeatures(dataLoad,'fast_linear',doNull,'numFeaturesDistr',40)
+% Find discriminative features:
+TS_TopFeatures(dataLoad,'fast_linear','numNulls',0,'numFeaturesDistr',40)
 
 %-------------------------------------------------------------------------------
 % Plot some of the top features:
