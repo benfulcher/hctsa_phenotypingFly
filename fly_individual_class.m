@@ -14,8 +14,8 @@ normalizedFileName = TS_normalize('scaledRobustSigmoid',[0.5,1]);
 % TS_plot_pca;
 TS_classify(normalizedFileName)
 TS_normalize('none',[0.5,1],[],1);
-doNull = 0;
-TS_TopFeatures('norm','fast_linear',doNull,'numFeaturesDistr',40)
+numNulls = 0;
+TS_TopFeatures('norm','fast_linear','numNulls',numNulls,'numFeaturesDistr',40)
 
 featID = 3789;
 TS_SingleFeature('norm',featID);
