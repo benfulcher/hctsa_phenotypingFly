@@ -50,6 +50,6 @@ TS_TopFeatures(unnormalizedData,'fast_linear','numFeatures',numFeatures,...
 %% Investigate particular individual features in some more detail
 annotateParams = struct('maxL',4320);
 featureID = 1752;
-TS_FeatureSummary(featureID,unnormalizedData,1,annotateParams)
+TS_FeatureSummary(featureID,unnormalizedData,true,annotateParams)
 featureID = 1099;
-TS_FeatureSummary(featureID,unnormalizedData,1,annotateParams)
+TS_FeatureSummary(featureID,unnormalizedData,true,annotateParams)
