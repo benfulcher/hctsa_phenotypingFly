@@ -4,16 +4,16 @@
 theFile = 'HCTSA.mat';
 load(theFile,'TimeSeries');
 [expID,recordingSegment] = getExperimentID(TimeSeries);
-theGroupsCell = arrayfun(@(x)x,expID,'UniformOutput',0);
+theGroupsCell = arrayfun(@(x)x,expID,'UniformOutput',false);
 groupNames = unique(expID);
-groupNames = arrayfun(@(x)num2str(x),groupNames,'UniformOutput',0);
+groupNames = arrayfun(@(x)num2str(x),groupNames,'UniformOutput',false);
 LabelBy(theGroupsCell,groupNames,TimeSeries,theFile);
 normalizedFileName = TS_normalize('scaledRobustSigmoid',[0.5,1]);
 
 % Not so much in the PCA
 % TS_plot_pca;
 TS_classify(normalizedFileName)
-TS_normalize('none',[0.5,1],[],1);
+TS_normalize('none',[0.5,1],[],true);
 numNulls = 0;
 TS_TopFeatures('norm','fast_linear','numNulls',numNulls,'numFeaturesDistr',40)
 
