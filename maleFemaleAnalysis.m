@@ -8,7 +8,7 @@
 %% Label groups, normalize, and load data:
 % Set how to normalize the data:
 whatNormalization = 'scaledRobustSigmoid'; % 'zscore', 'scaledRobustSigmoid'
-TS_LabelGroups({'F','M'},'raw');
+TS_LabelGroups('raw',{'F','M'});
 dataLoad = load('HCTSA.mat');
 TS_normalize(whatNormalization,[0.5,1]);
 % Load normalized data in a structure:
@@ -21,14 +21,14 @@ TS_cluster('none',[],'corr','average');
 %-------------------------------------------------------------------------------
 % Reorder to ensure male/female sit together:
 load('HCTSA_N.mat','ts_clust','TimeSeries','TS_DataMat');
-[~,ix] = sort([TimeSeries.Group]);
+[~,ix] = sort(TimeSeries.Group);
 dataMatReOrd = TS_DataMat(ix,:);
-ordering_1 = BF_ClusterReorder([],pdist(dataMatReOrd([TimeSeries(ix).Group]==1,:)),'average');
-ordering_2 = BF_ClusterReorder([],pdist(dataMatReOrd([TimeSeries(ix).Group]==2,:)),'average');
-is1 = ix([TimeSeries(ix).Group]==1);
-ix([TimeSeries(ix).Group]==1) = is1(ordering_1);
-is2 = ix([TimeSeries(ix).Group]==2);
-ix([TimeSeries(ix).Group]==2) = is2(ordering_2);
+ordering_1 = BF_ClusterReorder([],pdist(dataMatReOrd(TimeSeries.Group(ix)==1,:)),'average');
+ordering_2 = BF_ClusterReorder([],pdist(dataMatReOrd(TimeSeries.Group(ix)==2,:)),'average');
+is1 = ix(TimeSeries.Group(ix)==1);
+ix(TimeSeries.Group(ix)==1) = is1(ordering_1);
+is2 = ix(TimeSeries.Group(ix)==2);
+ix(TimeSeries.Group(ix)==2) = is2(ordering_2);
 ts_clust.ord = ix;
 save('HCTSA_N.mat','ts_clust','-append')
 dataLoadNorm = load('HCTSA_N.mat');
@@ -40,8 +40,7 @@ TS_plot_DataMatrix('cl','colorGroups',true,'addTimeSeries',false)
 %-------------------------------------------------------------------------------
 % Get overall classification rate:
 whatClassifier = 'svm_linear';
-computePCs = false;
-TS_classify(dataLoadNorm,whatClassifier,computePCs);
+TS_classify(dataLoadNorm,whatClassifier,'numPCs',0);
 
 %-------------------------------------------------------------------------------
 % Male/female PCA plot:

@@ -26,7 +26,7 @@ Dij_sorted = Dij(ixTot,ixTot);
 
 unitRescale = @(x) (x-min(x))/(max(x)-min(x));
 
-BF_PlotCorrMat([repmat(unitRescale(expID),1,100)*max(Dij(:)),Dij],'auto',1);
+BF_PlotCorrMat([repmat(unitRescale(expID),1,100)*max(Dij(:)),Dij],'auto',true);
 
 %-------------------------------------------------------------------------------
 % Individual classification
@@ -51,7 +51,7 @@ TS_normalize('scaledRobustSigmoid',[0.5,1]);
 %-------------------------------------------------------------------------------
 % Classification of region (tube ID) -- shouldn't be much of a signal
 %-------------------------------------------------------------------------------
-TS_LabelGroups({'reg2','reg4','reg6','reg8','reg10','reg11','reg13','reg15','reg17','reg19'},'raw');
+TS_LabelGroups('raw',{'reg2','reg4','reg6','reg8','reg10','reg11','reg13','reg15','reg17','reg19'});
 normHow = 'zscore'; % 'none', 'scaledRobustSigmoid', 'zscore'
 TS_normalize(normHow,[0.5,1],[],1);
 TS_classify('norm')
@@ -62,7 +62,7 @@ TS_TopFeatures('norm','fast_linear','numNulls',0,'numFeaturesDistr',40)
 %-------------------------------------------------------------------------------
 % Effect of day number?
 %-------------------------------------------------------------------------------
-TS_LabelGroups({'day1','day2','day3','day4','day5'},'raw');
+TS_LabelGroups('raw',{'day1','day2','day3','day4','day5'});
 TS_normalize('scaledRobustSigmoid',[0.5,1]);
 TS_classify
 TS_plot_pca

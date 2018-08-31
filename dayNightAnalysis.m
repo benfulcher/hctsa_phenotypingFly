@@ -7,7 +7,7 @@
 % Set how to normalize the data:
 whatNormalization = 'zscore'; % 'zscore', 'scaledRobustSigmoid'
 % Label all time series by either 'day' or 'night':
-TS_LabelGroups({'day','night'},'raw');
+TS_LabelGroups('raw',{'day','night'});
 % Normalize the data, filtering out features with any special values:
 TS_normalize(whatNormalization,[0.5,1],[],1);
 % Load data in as a structure:
@@ -18,8 +18,7 @@ normalizedData = load('HCTSA_N.mat');
 %-------------------------------------------------------------------------------
 %% How accurately can day versus night be classified using all features:
 whatClassifier = 'svm_linear';
-computePCs = false;
-TS_classify(normalizedData,whatClassifier,computePCs);
+TS_classify(normalizedData,whatClassifier,'numPCs',0);
 
 %-------------------------------------------------------------------------------
 %% Generate a low-dimensional principal components representation of the dataset:
@@ -42,7 +41,7 @@ numFeatures = 40; % number of features to include in the pairwise correlation pl
 numFeaturesDistr = 32; % number of features to show class distributions for
 whatStatistic = 'fast_linear'; % fast linear classification rate statistic
 
-TS_TopFeatures(unnormalizedData,'fast_linear','numFeatures',numFeatures,...
+TS_TopFeatures(unnormalizedData,whatStatistic,'numFeatures',numFeatures,...
             'numFeaturesDistr',numFeaturesDistr,...
             'whatPlots',{'histogram','distributions','cluster'});
 

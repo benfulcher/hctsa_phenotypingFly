@@ -14,10 +14,10 @@ filterProp = [0.5,1];
 
 % Whether to remove features with no within-class variance
 % (causes problems for some classification algorithms):
-classVarianceFilter = 1;
+classVarianceFilter = true;
 
 % Whether to compare results using all features to results using reduced PCs
-computePCs = 0;
+numPCs = 0;
 
 % What classifier to use:
 whatClassifier = 'svm_linear';
@@ -30,10 +30,10 @@ for i = 1:3
     switch i
     case 1
         % Day/night:
-        TS_LabelGroups({'day','night'},'raw');
+        TS_LabelGroups('raw',{'day','night'});
     case 2
         % Male/female:
-        TS_LabelGroups({'F','M'},'raw');
+        TS_LabelGroups('raw',{'F','M'});
     case 3
         % Combined four-class: male/female & day/night:
         labelCombination('raw');

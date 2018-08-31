@@ -18,15 +18,16 @@ TS_plot_timeseries(unnormalizedData,numTimeSeriesPerClass)
 %-------------------------------------------------------------------------------
 %% Classify labels using all features:
 theClassifier = 'svm_linear'; % the classifier to use
-comparePCs = false; % whether to compare the classification performance of reduced PCs
-TS_classify(normalizedData,theClassifier,comparePCs);
+numPCs = 0; % whether to compare the classification performance of reduced PCs
+TS_classify(normalizedData,theClassifier,'numPCs',numPCs);
 
 %-------------------------------------------------------------------------------
 %% PCA with annotations:
 % *****FIGURE IN PAPER*****
 annotateParams = struct('n',0,'textAnnotation','none','userInput',false,'maxL',600);
 TS_plot_pca(normalizedData,false,'svm_linear',annotateParams)
-f = gcf; f.Position = [491,500,417,384];
+f = gcf;
+f.Position = [491,500,417,384];
 
 %-------------------------------------------------------------------------------
 %% Get some top features:
@@ -50,11 +51,11 @@ featuresLook = [7051,... % MF_CompareTestSets_y_ar_4_rand_25_01_1_stdrats_median
                 1156]; % noise titration
 
 for i = 1:length(featuresLook)
-    TS_SingleFeature(unnormalizedData,featuresLook(i),1,1);
+    TS_SingleFeature(unnormalizedData,featuresLook(i),true,true);
 end
 
 %-------------------------------------------------------------------------------
 %% Focus in on SY_StdNthDer_1:
 featureID = 751;
-annotateParams = struct('n',15,'textAnnotation','none','userInput',0,'maxL',4320);
-TS_FeatureSummary(featureID,unnormalizedData,1,annotateParams);
+annotateParams = struct('n',15,'textAnnotation','none','userInput',false,'maxL',4320);
+TS_FeatureSummary(featureID,unnormalizedData,true,annotateParams);

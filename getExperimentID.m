@@ -4,11 +4,11 @@ function [expID,recordingSegment] = getExperimentID(TimeSeries)
 %-------------------------------------------------------------------------------
 
 % First we want the names:
-fileNames = {TimeSeries.Name};
+fileNames = TimeSeries.Name;
 
 % New method: split on the dot:
 splitDot = regexp(fileNames,'\.','split');
-splitDot_ID = cellfun(@(x)x{1},splitDot,'UniformOutput',0);
+splitDot_ID = cellfun(@(x)x{1},splitDot,'UniformOutput',false);
 [uniqueIDs,~,expID] = unique(splitDot_ID);
 
 % Then we want to split on underscore:
@@ -20,8 +20,8 @@ splitUnderscore = regexp(fileNames,'_','split');
 
 % recordingSegment as the numbers of final component?:
 if nargout > 1
-    splitUnderscore_segment = cellfun(@(x)x{5},splitUnderscore,'UniformOutput',0);
-    recordingSegment = cellfun(@(x)str2num(x),splitUnderscore_segment,'UniformOutput',1);
+    splitUnderscore_segment = cellfun(@(x)x{5},splitUnderscore,'UniformOutput',false);
+    recordingSegment = cellfun(@(x)str2num(x),splitUnderscore_segment,'UniformOutput',true);
 end
 
 end
