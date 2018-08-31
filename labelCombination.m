@@ -14,11 +14,11 @@ dayGroups = TS_LabelGroups(theData,{'day','night'},false); % day (1), night(2)
 % First append/overwrite group names
 groupNames = {'MaleDay','MaleNight','FemaleDay','FemaleNight'}';
 
-groupLabels = cell(4,1);
-groupLabels{1} = find(sexGroups==1 & dayGroups==1);
-groupLabels{2} = find(sexGroups==1 & dayGroups==2);
-groupLabels{3} = find(sexGroups==2 & dayGroups==1);
-groupLabels{4} = find(sexGroups==2 & dayGroups==2);
+groupLabels = zeros(height(TimeSeries),1);
+groupLabels(sexGroups==1 & dayGroups==1) = 1;
+groupLabels(sexGroups==1 & dayGroups==2) = 2;
+groupLabels(sexGroups==2 & dayGroups==1) = 3;
+groupLabels(sexGroups==2 & dayGroups==2) = 4;
 
 LabelBy(groupLabels,groupNames,TimeSeries,theData);
 

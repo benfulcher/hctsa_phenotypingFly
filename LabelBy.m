@@ -4,7 +4,8 @@ function LabelBy(groupLabels,groupNames,TimeSeries,theFile)
 if ismember('Group',TimeSeries.Properties.VariableNames)
     TimeSeries(:,'Group') = [];
 end
-TimeSeries.Group = groupLabels';
+
+TimeSeries.Group = groupLabels;
 
 % Save everything back to file:
 save(theFile,'TimeSeries','groupNames','-append')
