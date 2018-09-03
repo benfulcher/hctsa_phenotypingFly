@@ -24,12 +24,12 @@ featureID = 751; % The feature: SY_StdNthDer_1
 TS_SingleFeature('raw',featureID,true,true);
 
 %-------------------------------------------------------------------------------
-%% Plot a principal components projection of the dataset
+%% Plot a low-dimensional projection of the dataset:
 %-------------------------------------------------------------------------------
 numberToAnnotate = 0; % don't annotate any time series to the plot
+whatAlgorithm = 'pca'; % 'tSNE'
 whatClassifier = 'svm_linear'; % plot classification boundaries in the 2D space
 annotateParams = struct('n',numberToAnnotate,'textAnnotation','none',...
                         'userInput',false,'maxL',600);
-TS_plot_pca('norm',false,whatClassifier,annotateParams)
-f = gcf;
+f = TS_PlotLowDim('norm',whatAlgorithm,false,whatClassifier,annotateParams);
 f.Position = [491,500,417,384];

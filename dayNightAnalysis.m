@@ -9,7 +9,7 @@ whatNormalization = 'zscore'; % 'zscore', 'scaledRobustSigmoid'
 % Label all time series by either 'day' or 'night':
 TS_LabelGroups('raw',{'day','night'});
 % Normalize the data, filtering out features with any special values:
-TS_normalize(whatNormalization,[0.5,1],[],1);
+TS_normalize(whatNormalization,[0.5,1],[],true);
 % Load data in as a structure:
 unnormalizedData = load('HCTSA.mat');
 % Load normalized data in a structure:
@@ -21,13 +21,14 @@ whatClassifier = 'svm_linear';
 TS_classify(normalizedData,whatClassifier,'numPCs',0);
 
 %-------------------------------------------------------------------------------
-%% Generate a low-dimensional principal components representation of the dataset:
+%% Generate a low-dimensional feature-based representation of the dataset:
 numAnnotate = 6; % number of time series to annotate to the plot
+whatAlgorithm = 'tSNE';
 userSelects = false; % whether the user can click on time series to manually annotate
 timeSeriesLength = 600; % length of time-series segments to annotate
 annotateParams = struct('n',numAnnotate,'textAnnotation','none',...
                         'userInput',userSelects,'maxL',timeSeriesLength);
-TS_plot_pca(normalizedData,true,'',annotateParams)
+TS_PlotLowDim(normalizedData,whatAlgorithm,true,'',annotateParams);
 
 %-------------------------------------------------------------------------------
 %% What individual features best discriminate day from night

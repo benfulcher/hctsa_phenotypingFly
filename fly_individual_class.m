@@ -11,7 +11,7 @@ LabelBy(theGroupsCell,groupNames,TimeSeries,theFile);
 normalizedFileName = TS_normalize('scaledRobustSigmoid',[0.5,1]);
 
 % Not so much in the PCA
-% TS_plot_pca;
+% TS_PlotLowDim;
 TS_classify(normalizedFileName)
 TS_normalize('none',[0.5,1],[],true);
 numNulls = 0;

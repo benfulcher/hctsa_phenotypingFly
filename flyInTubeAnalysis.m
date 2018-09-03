@@ -55,7 +55,7 @@ TS_LabelGroups('raw',{'reg2','reg4','reg6','reg8','reg10','reg11','reg13','reg15
 normHow = 'zscore'; % 'none', 'scaledRobustSigmoid', 'zscore'
 TS_normalize(normHow,[0.5,1],[],1);
 TS_classify('norm')
-TS_plot_pca
+TS_PlotLowDim('norm','tSNE');
 TS_normalize('none',[0.5,1],[],1);
 TS_TopFeatures('norm','fast_linear','numNulls',0,'numFeaturesDistr',40)
 
@@ -64,6 +64,6 @@ TS_TopFeatures('norm','fast_linear','numNulls',0,'numFeaturesDistr',40)
 %-------------------------------------------------------------------------------
 TS_LabelGroups('raw',{'day1','day2','day3','day4','day5'});
 TS_normalize('scaledRobustSigmoid',[0.5,1]);
-TS_classify
-TS_plot_pca
+TS_classify('norm')
+TS_PlotLowDim('norm','tSNE');
 TS_TopFeatures

@@ -44,8 +44,9 @@ TS_classify(dataLoadNorm,whatClassifier,'numPCs',0);
 
 %-------------------------------------------------------------------------------
 % Male/female PCA plot:
+whatLowDimAlgorithm = 'tSNE'; % 'pca'
 annotateParams = struct('n',12,'textAnnotation','none','userInput',false,'maxL',600);
-TS_plot_pca(dataLoadNorm,true,'',annotateParams)
+TS_PlotLowDim(dataLoadNorm,whatLowDimAlgorithm,true,'',annotateParams);
 
 %-------------------------------------------------------------------------------
 % Find discriminative features:
