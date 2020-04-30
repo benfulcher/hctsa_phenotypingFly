@@ -1,10 +1,5 @@
 # hctsa_phenotypingFly
-<<<<<<< HEAD
-
-Running [hctsa](github.com/benfulcher/hctsa) analysis on movement speed data of fruit flies, *Drosophila melanogaster*, restricted to a one-dimensional tube and tracked continuously for between 3 and 6 days using video tracking.
-=======
 Running [hctsa](https://github.com/benfulcher/hctsa) analysis on movement speed data of fruit flies, *Drosophila melanogaster*, restricted to a one-dimensional tube and tracked continuously for between 3 and 6 days using video tracking.
->>>>>>> c4896bc156f5fa6091819dd5cc525d7e5cfe4c0b
 Data were measured and kindly provided by Quentin Geissmann ([@qgeissmann](https://twitter.com/qgeissmann)) and Giorgio Gilestro ([@giorgiogilestro](https://twitter.com/giorgiogilestro)).
 Movement speed was estimated as the maximum speed in each non-overlapping 10 s time window, from position measurements measured at approximately 2 Hz, where displacements were measured as the euclidean distance between successive coordinates of the fly.
 
