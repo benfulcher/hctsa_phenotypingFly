@@ -6,20 +6,20 @@
 %% Label the combination with group labels, normalize, and load in data:
 labelCombination();
 whatNormalization = 'zscore';
-TS_normalize('zscore',[0.5,1]);
+TS_Normalize(whatNormalization,[0.5,1]);
 unnormalizedData = load('HCTSA.mat');
 normalizedData = load('HCTSA_N.mat');
 
 %-------------------------------------------------------------------------------
 %% Plot time series from each class:
 numTimeSeriesPerClass = 5;
-TS_plot_timeseries(unnormalizedData,numTimeSeriesPerClass)
+TS_PlotTimeSeries(unnormalizedData,numTimeSeriesPerClass)
 
 %-------------------------------------------------------------------------------
 %% Classify labels using all features:
 theClassifier = 'svm_linear'; % the classifier to use
 numPCs = 0; % whether to compare the classification performance of reduced PCs
-TS_classify(normalizedData,theClassifier,'numPCs',numPCs);
+TS_Classify(normalizedData,theClassifier,'numPCs',numPCs);
 
 %-------------------------------------------------------------------------------
 %% PCA with annotations:

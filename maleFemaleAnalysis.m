@@ -10,13 +10,13 @@
 whatNormalization = 'scaledRobustSigmoid'; % 'zscore', 'scaledRobustSigmoid'
 TS_LabelGroups('raw',{'F','M'});
 dataLoad = load('HCTSA.mat');
-TS_normalize(whatNormalization,[0.5,1]);
+TS_Normalize(whatNormalization,[0.5,1]);
 % Load normalized data in a structure:
 normalizedData = load('HCTSA_N.mat');
 
 %-------------------------------------------------------------------------------
 % Reorder features to sit close:
-TS_cluster('none',[],'corr','average');
+TS_Cluster('none',[],'corr','average');
 
 %-------------------------------------------------------------------------------
 % Reorder to ensure male/female sit together:
@@ -35,12 +35,12 @@ dataLoadNorm = load('HCTSA_N.mat');
 
 %-------------------------------------------------------------------------------
 % Plot the clustered data matrix:
-TS_plot_DataMatrix('cl','colorGroups',true,'addTimeSeries',false)
+TS_PlotDataMatrix('cl','colorGroups',true,'addTimeSeries',false)
 
 %-------------------------------------------------------------------------------
 % Get overall classification rate:
 whatClassifier = 'svm_linear';
-TS_classify(dataLoadNorm,whatClassifier,'numPCs',0);
+TS_Classify(dataLoadNorm,whatClassifier,'numPCs',0);
 
 %-------------------------------------------------------------------------------
 % Male/female PCA plot:

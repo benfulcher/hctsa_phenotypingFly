@@ -1,7 +1,7 @@
 %-------------------------------------------------------------------------------
-% Time series similarity matrix
+% Time-series similarity matrix
 %-------------------------------------------------------------------------------
-TS_normalize('scaledRobustSigmoid',[0.5,1]);
+TS_Normalize('scaledRobustSigmoid',[0.5,1]);
 % Pairwise distances:
 Dij = TS_PairwiseDist('ts','norm','euclidean');
 
@@ -46,24 +46,24 @@ for j = 1:max(indLabels)
     groupNames{j} = num2str(j);
 end
 LabelBy(theGroupsCell,groupNames,TimeSeries,'HCTSA.mat');
-TS_normalize('scaledRobustSigmoid',[0.5,1]);
+TS_Normalize('scaledRobustSigmoid',[0.5,1]);
 
 %-------------------------------------------------------------------------------
 % Classification of region (tube ID) -- shouldn't be much of a signal
 %-------------------------------------------------------------------------------
 TS_LabelGroups('raw',{'reg2','reg4','reg6','reg8','reg10','reg11','reg13','reg15','reg17','reg19'});
 normHow = 'zscore'; % 'none', 'scaledRobustSigmoid', 'zscore'
-TS_normalize(normHow,[0.5,1],[],1);
-TS_classify('norm')
+TS_Normalize(normHow,[0.5,1],[],1);
+TS_Classify('norm')
 TS_PlotLowDim('norm','tSNE');
-TS_normalize('none',[0.5,1],[],1);
+TS_Normalize('none',[0.5,1],[],1);
 TS_TopFeatures('norm','fast_linear','numNulls',0,'numFeaturesDistr',40)
 
 %-------------------------------------------------------------------------------
 % Effect of day number?
 %-------------------------------------------------------------------------------
 TS_LabelGroups('raw',{'day1','day2','day3','day4','day5'});
-TS_normalize('scaledRobustSigmoid',[0.5,1]);
-TS_classify('norm')
+TS_Normalize('scaledRobustSigmoid',[0.5,1]);
+TS_Classify('norm')
 TS_PlotLowDim('norm','tSNE');
 TS_TopFeatures

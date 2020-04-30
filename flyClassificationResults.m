@@ -40,9 +40,9 @@ for i = 1:3
     end
 
     % Normalize data:
-    TS_normalize(normHow,filterProp,[],classVarianceFilter);
+    TS_Normalize(normHow,filterProp,[],classVarianceFilter);
 
     % Classify the normalized data:
-    TS_classify('norm',whatClassifier,computePCs);
+    TS_Classify('norm',whatClassifier,computePCs);
 
 end
