@@ -14,18 +14,24 @@ TS_Normalize(whatNormalization,[0.5,1],[],true);
 unnormalizedData = load('HCTSA.mat');
 % Load normalized data in a structure:
 normalizedData = load('HCTSA_N.mat');
+% Set classification parameters:
+cfnParams = GiveMeDefaultClassificationParams(unnormalizedData,2);
+cfnParams.whatClassifier = 'svm_linear';
 
 %-------------------------------------------------------------------------------
 % Optionally cluster and plot a colored data matrix:
-% TS_cluster();
-%
-TS_PlotDataMatrix('HCTSA_N.mat','colorGroups',false)
+doCluster = false
+if doCluster
+    TS_Cluster();
+    % reload with cluster info:
+    normalizedData = load('HCTSA_N.mat');
+end
+TS_PlotDataMatrix(normalizedData,'colorGroups',false)
 
 %-------------------------------------------------------------------------------
 %% How accurately can day versus night be classified using all features:
-whatClassifier = 'svm_linear';
-numNulls = 0;
-TS_Classify(normalizedData,whatClassifier,'numPCs',0,'numNulls',numNulls);
+numNulls = 0; % (don't do any comparison to shuffled-label nulls)
+TS_Classify(normalizedData,cfnParams,numNulls);
 
 %-------------------------------------------------------------------------------
 %% Generate a low-dimensional feature-based representation of the dataset:
@@ -35,21 +41,21 @@ userSelects = true; % whether the user can click on time series to manually anno
 timeSeriesLength = 600; % length of time-series segments to annotate
 annotateParams = struct('n',numAnnotate,'textAnnotation','none',...
                         'userInput',userSelects,'maxL',timeSeriesLength);
-TS_PlotLowDim(normalizedData,whatAlgorithm,true,'',annotateParams);
+TS_PlotLowDim(normalizedData,whatAlgorithm,true,annotateParams,cfnParams);
 
 %-------------------------------------------------------------------------------
-%% What individual features best discriminate day from night
-% Uses a linear classication accuracy between day/night as a statistic to
-% score individual features
+%% What individual features best discriminate day from night?
+% Uses 'ustat' between day/night as a statistic to score individual features
 % Produces 1) a pairwise correlation plot between the top features
 %          2) class distributions of the top features, with their stats
 %          3) a histogram of the accuracy of all features
 
 numFeatures = 40; % number of features to include in the pairwise correlation plot
 numFeaturesDistr = 32; % number of features to show class distributions for
-whatStatistic = 'fast_linear'; % fast linear classification rate statistic
+whatStatistic = 'ustat'; % rank-sum test p-value
 
-TS_TopFeatures(normalizedData,whatStatistic,'numFeatures',numFeatures,...
+TS_TopFeatures(normalizedData,whatStatistic,struct(),...
+            'numFeatures',numFeatures,...
             'numFeaturesDistr',numFeaturesDistr,...
             'whatPlots',{'histogram','distributions','cluster'});
 
