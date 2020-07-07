@@ -28,8 +28,7 @@ TS_SingleFeature('raw',featureID,true,true);
 %-------------------------------------------------------------------------------
 numberToAnnotate = 0; % don't annotate any time series to the plot
 whatAlgorithm = 'pca'; % 'tSNE'
-whatClassifier = 'svm_linear'; % plot classification boundaries in the 2D space
 annotateParams = struct('n',numberToAnnotate,'textAnnotation','none',...
                         'userInput',false,'maxL',600);
-f = TS_PlotLowDim('norm',whatAlgorithm,false,whatClassifier,annotateParams);
-f.Position = [491,500,417,384];
+f = TS_PlotLowDim('norm',whatAlgorithm,false,annotateParams);
+f.Position(3:4) = [417,384];
