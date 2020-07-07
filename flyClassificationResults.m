@@ -16,33 +16,33 @@ filterProp = [0.5,1];
 % (causes problems for some classification algorithms):
 classVarianceFilter = true;
 
-% Whether to compare results using all features to results using reduced PCs
-numPCs = 0;
+numNulls = 0;
 
 % What classifier to use:
-whatClassifier = 'svm_linear';
+cfnParams = GiveMeDefaultClassificationParams('raw');
+cfnParams.whatClassifier = 'svm_linear';
 
 %-------------------------------------------------------------------------------
 % Go through 3 different classification tasks:
 %-------------------------------------------------------------------------------
 
-for i = 1:3
-    switch i
-    case 1
-        % Day/night:
-        TS_LabelGroups('raw',{'day','night'});
-    case 2
-        % Male/female:
-        TS_LabelGroups('raw',{'F','M'});
-    case 3
-        % Combined four-class: male/female & day/night:
-        labelCombination('raw');
-    end
+% ------------Day/night:
+TS_LabelGroups('raw',{'day','night'});
+% Normalize data:
+TS_Normalize(normHow,filterProp,[],classVarianceFilter);
+% Classify the normalized data:
+TS_Classify('norm',cfnParams,numNulls);
 
-    % Normalize data:
-    TS_Normalize(normHow,filterProp,[],classVarianceFilter);
+% ------------Male/female:
+TS_LabelGroups('raw',{'F','M'});
+% Normalize data:
+TS_Normalize(normHow,filterProp,[],classVarianceFilter);
+% Classify the normalized data:
+TS_Classify('norm',cfnParams,numNulls);
 
-    % Classify the normalized data:
-    TS_Classify('norm',whatClassifier,computePCs);
-
-end
+% ------------% Combined four-class: male/female & day/night:
+labelCombination('raw');
+% Normalize data:
+TS_Normalize(normHow,filterProp,[],classVarianceFilter);
+% Classify the normalized data:
+TS_Classify('norm',cfnParams,numNulls);

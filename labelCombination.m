@@ -7,19 +7,20 @@ if nargin < 1
 end
 
 %-------------------------------------------------------------------------------
-[~,TimeSeries,~,theData] = TS_LoadData(theData);
-sexGroups = TS_LabelGroups(theData,{'M','F'},false); % Male (1), Female (2)
-dayGroups = TS_LabelGroups(theData,{'day','night'},false); % day (1), night(2)
+TimeSeries = TS_GetFromData(theData,'TimeSeries');
+sexGroups = TS_LabelGroups(theData,{'M','F'},false);
+dayGroups = TS_LabelGroups(theData,{'day','night'},false);
 
 % First append/overwrite group names
-groupNames = {'MaleDay','MaleNight','FemaleDay','FemaleNight'}';
+groupLabels = cell(height(TimeSeries),1);
+groupLabels(sexGroups=='M' & dayGroups=='day') = {'maleDay'};
+groupLabels(sexGroups=='M' & dayGroups=='night') = {'maleNight'};
+groupLabels(sexGroups=='F' & dayGroups=='day') = {'femaleDay'};
+groupLabels(sexGroups=='F' & dayGroups=='night') = {'femaleNight'};
+groupLabels = categorical(groupLabels);
 
-groupLabels = zeros(height(TimeSeries),1);
-groupLabels(sexGroups==1 & dayGroups==1) = 1;
-groupLabels(sexGroups==1 & dayGroups==2) = 2;
-groupLabels(sexGroups==2 & dayGroups==1) = 3;
-groupLabels(sexGroups==2 & dayGroups==2) = 4;
-
-LabelBy(groupLabels,groupNames,TimeSeries,theData);
+% Save everything back to file:
+TimeSeries.Group = groupLabels;
+save(theData,'TimeSeries','-append')
 
 end

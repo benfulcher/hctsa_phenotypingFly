@@ -9,6 +9,9 @@ whatNormalization = 'zscore';
 TS_Normalize(whatNormalization,[0.5,1]);
 unnormalizedData = load('HCTSA.mat');
 normalizedData = load('HCTSA_N.mat');
+% Set classification parameters:
+cfnParams = GiveMeDefaultClassificationParams(unnormalizedData);
+cfnParams.whatClassifier = 'svm_linear';
 
 %-------------------------------------------------------------------------------
 %% Plot time series from each class:
@@ -17,16 +20,15 @@ TS_PlotTimeSeries(unnormalizedData,numTimeSeriesPerClass)
 
 %-------------------------------------------------------------------------------
 %% Classify labels using all features:
-theClassifier = 'svm_linear'; % the classifier to use
-numPCs = 0; % whether to compare the classification performance of reduced PCs
-TS_Classify(normalizedData,theClassifier,'numPCs',numPCs);
+numNulls = 0; % do permutation-based significance testing
+TS_Classify(normalizedData,cfnParams,numNulls);
 
 %-------------------------------------------------------------------------------
 %% PCA with annotations:
 % *****FIGURE IN PAPER*****
 annotateParams = struct('n',0,'textAnnotation','none','userInput',false,'maxL',600);
-f = TS_PlotLowDim(normalizedData,'tSNE',false,'svm_linear',annotateParams);
-f.Position = [491,500,417,384];
+f = TS_PlotLowDim(normalizedData,'tSNE',false,annotateParams,cfnParams);
+f.Position(3:4) = [417,384];
 
 %-------------------------------------------------------------------------------
 %% Get some top features:
@@ -37,7 +39,9 @@ if doNull
 else
     numNulls = 0;
 end
-TS_TopFeatures(unnormalizedData,'fast_linear','numFeaturesDistr',numFeaturesDistr,...
+cfnParams.whatClassifier = 'fast_linear';
+TS_TopFeatures(unnormalizedData,'classification',cfnParams,...
+                    'numFeaturesDistr',numFeaturesDistr,...
                     'numNulls',numNulls)
 
 %-------------------------------------------------------------------------------

@@ -14,8 +14,7 @@ normalizedFileName = TS_Normalize('scaledRobustSigmoid',[0.5,1]);
 % TS_PlotLowDim;
 TS_Classify(normalizedFileName)
 TS_Normalize('none',[0.5,1],[],true);
-numNulls = 0;
-TS_TopFeatures('norm','fast_linear','numNulls',numNulls,'numFeaturesDistr',40)
+TS_TopFeatures('norm','ustat','numFeaturesDistr',40)
 
 featID = 3789;
 TS_SingleFeature('norm',featID);

@@ -57,7 +57,7 @@ TS_Normalize(normHow,[0.5,1],[],1);
 TS_Classify('norm')
 TS_PlotLowDim('norm','tSNE');
 TS_Normalize('none',[0.5,1],[],1);
-TS_TopFeatures('norm','fast_linear','numNulls',0,'numFeaturesDistr',40)
+TS_TopFeatures('norm','ustat','numFeaturesDistr',40)
 
 %-------------------------------------------------------------------------------
 % Effect of day number?
@@ -66,4 +66,4 @@ TS_LabelGroups('raw',{'day1','day2','day3','day4','day5'});
 TS_Normalize('scaledRobustSigmoid',[0.5,1]);
 TS_Classify('norm')
 TS_PlotLowDim('norm','tSNE');
-TS_TopFeatures
+TS_TopFeatures('norm','ustat')
