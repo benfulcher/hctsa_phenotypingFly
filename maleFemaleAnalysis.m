@@ -35,7 +35,7 @@ unnormalizedData = load('HCTSA.mat');
 normalizedData = load('HCTSA_N.mat');
 
 %-------------------------------------------------------------------------------
-% Set classification parameters:
+% Set classification parameters as linear SVM classification:
 cfnParams = GiveMeDefaultClassificationParams(unnormalizedData);
 cfnParams.whatClassifier = 'svm_linear';
 
