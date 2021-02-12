@@ -50,12 +50,12 @@ TS_PlotLowDim(normalizedData,whatAlgorithm,true,annotateParams,cfnParams);
 %          2) class distributions of the top features, with their stats
 %          3) a histogram of the accuracy of all features
 
-numFeatures = 40; % number of features to include in the pairwise correlation plot
+numTopFeatures = 40; % number of features to include in the pairwise correlation plot
 numFeaturesDistr = 32; % number of features to show class distributions for
 whatStatistic = 'ustat'; % rank-sum test p-value
 
 TS_TopFeatures(normalizedData,whatStatistic,struct(),...
-            'numFeatures',numFeatures,...
+            'numFeatures',numTopFeatures,...
             'numFeaturesDistr',numFeaturesDistr,...
             'whatPlots',{'histogram','distributions','cluster'});
 
